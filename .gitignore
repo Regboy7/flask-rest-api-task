@@ -4,5 +4,7 @@ __pycache__/
 .vscode/
 .DS_Store
 thumbs.db
-
 # ignores virtual environment, cache files, vscode settings, and my system files.
+vehicles.db
+*db
+# ignores the database file and all database files.
