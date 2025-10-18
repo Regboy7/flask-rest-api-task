@@ -25,8 +25,8 @@ def get_vehicles():
 @vehicle_api.route('/vehicles', methods=['POST']) # endpoint to add new vehicle data
 def add_vehicle():
     data = request.get_json() # getting the json data from the request body (in dictionary format)
-    required_fields = ['registration', 'make', 'model', 'year']
-    if not all (data in field for field in required_fields): # missing field validation
+    required_fields = ['make', 'model', 'registration', 'year']
+    if not all (field in data for field in required_fields): # missing field validation
         return jsonify({"error": "1 or more fields are missing"}), 400
     
     try: 
