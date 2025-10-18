@@ -6,43 +6,56 @@ from . import vehicle_api # importing blueprint instance
 
 def getdbconnection():   # function to get a connection to the database
     db_path = os.path.join(os.path.dirname(__file__), '..', 'vehicles.db') #ensuring the database is created in the same directory as init.db.py
-    conectn = sqlite3.connect(db_path) #creating a connection to the database with the path
-    conectn.row_factory = sqlite3.Row # allows dictionary-like access to rows (key-value pairs) making it easier to sort and filter data.
-    return conectn # returning the connection object
+    conn = sqlite3.connect(db_path) #creating a connection to the database with the path
+    conn.row_factory = sqlite3.Row # allows dictionary-like access to rows (key-value pairs) making it easier to sort and filter data.
+    return conn # returning the connection object
 
 
 @vehicle_api.route('/vehicles', methods=['GET']) # api endpoint to grab all vehicle data
 def get_vehicles():
-    conectn = getdbconnection() #get db connection
-    cursor = conectn.cursor() #define cursor
+    conn = getdbconnection() #get db connection
+    cursor = conn.cursor() #define cursor
     cursor.execute('SELECT * FROM vehicles') #sql query with cursor
     rows = cursor.fetchall() #get all rows from query
 
     vehicles = [dict(row) for row in rows]#convert rows into a list of dictionaries
-    conectn.close() #close connection
+    conn.close() #close connection
     return jsonify(vehicles) #returning the data in json format
+
+@vehicle_api.route('vehicles', methods=['DELETE']) # an endpoint to delete existing data
+def delete_vehicle():
+    data = request.get_json() # getting data from request body
+    required_fields = ['registration']
+    if not all (field in data for field in required_fields): # missing field validation same as above
+        return jsonify({"error": "Missing Registration"}), 400
+    conn = getdbconnection()
+    cursor = conn.cursor()
+    cursor.execute('''DELETE FROM vehicles WHERE registration = ?''', (data['registration'],))      # deleting vehicle data based on registration number
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Vehicle deleted!"}), 400 # success message
 
 @vehicle_api.route('/vehicles', methods=['POST']) # endpoint to add new vehicle data
 def add_vehicle():
     data = request.get_json() # getting the json data from the request body (in dictionary format)
-    required_fields = ['make', 'model', 'registration', 'year']
+    required_fields = ['registration', 'make', 'model', 'year']
     if not all (field in data for field in required_fields): # missing field validation
         return jsonify({"error": "1 or more fields are missing"}), 400
     
     try: 
         year = int(data['year']) # convert year to integer
-        if year <1880 or year > 2026: # year range validation
+        if year <1920 or year > 2026: # year range validation
             return jsonify({"error": "Year must be between 1880 and 2026"}), 400
     except ValueError: # correct year data type validation
         return jsonify({"error": "Year must be an integer"}), 400
     
-    conectn = getdbconnection() # get db connection as above
-    cursor = conectn.cursor()
+    conn = getdbconnection() # get db connection as above
+    cursor = conn.cursor()
     cursor.execute('''
     INSERT INTO vehicles (registration, make, model, year)
                    values (?, ?, ?, ?)
     ''', (data['registration'], data['make'], data['model'], data['year'])) # inserting new vehicle data
-    conectn.commit()
-    conectn.close()
+    conn.commit()
+    conn.close()
 
     return jsonify({"message": "Vehicle added!"}), 201 #final success message
