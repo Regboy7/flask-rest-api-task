@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>🚗 Vehicle Dashboard</h1>
+
+    <section id="add-section">
+        <h2>Add Vehicle</h2>
+        <form id="addForm">
+            <input type="text" id="registration" placeholder="Registration" required>
+            <input type="text" id="make" placeholder="Make" required>
+            <input type="text" id="model" placeholder="Model" required>
+            <input type="number" id="year" placeholder="Year" required>
+            <button type="submit">Add Vehicle</button>
+        </form>
+    </section>
+
+    <section id="delete-section">
+        <h2>Delete Vehicle</h2>
+        <form id="deleteForm">
+            <input type="text" id="deleteRegistration" placeholder="Registration to Delete" required>
+            <button type="submit">Delete</button>
+        </form>
+    </section>
+
+    <section id="list-section">
+        <h2>Current Vehicles</h2>
+        <table id="vehicleTable">
+            <thead>
+                <tr>
+                    <th>Registration</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

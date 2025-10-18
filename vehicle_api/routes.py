@@ -8,6 +8,7 @@ def getdbconnection():   # function to get a connection to the database
     db_path = os.path.join(os.path.dirname(__file__), '..', 'vehicles.db') #ensuring the database is created in the same directory as init.db.py
     conn = sqlite3.connect(db_path) #creating a connection to the database with the path
     conn.row_factory = sqlite3.Row # allows dictionary-like access to rows (key-value pairs) making it easier to sort and filter data.
+    conn.execute('PRAGMA busy_timeout = 5000')  # set busy timeout to 5 seconds to allow VACUUM SQL command to complete.
     return conn # returning the connection object
 
 
@@ -22,18 +23,6 @@ def get_vehicles():
     conn.close() #close connection
     return jsonify(vehicles) #returning the data in json format
 
-@vehicle_api.route('vehicles', methods=['DELETE']) # an endpoint to delete existing data
-def delete_vehicle():
-    data = request.get_json() # getting data from request body
-    required_fields = ['registration']
-    if not all (field in data for field in required_fields): # missing field validation same as above
-        return jsonify({"error": "Missing Registration"}), 400
-    conn = getdbconnection()
-    cursor = conn.cursor()
-    cursor.execute('''DELETE FROM vehicles WHERE registration = ?''', (data['registration'],))      # deleting vehicle data based on registration number
-    conn.commit()
-    conn.close()
-    return jsonify({"message": "Vehicle deleted!"}), 400 # success message
 
 @vehicle_api.route('/vehicles', methods=['POST']) # endpoint to add new vehicle data
 def add_vehicle():
@@ -59,3 +48,21 @@ def add_vehicle():
     conn.close()
 
     return jsonify({"message": "Vehicle added!"}), 201 #final success message
+
+
+@vehicle_api.route('/vehicles', methods=['DELETE']) # an endpoint to delete existing data
+def delete_vehicle():
+    data = request.get_json() # getting data from request body
+    required_fields = ['registration']
+    if not all (field in data for field in required_fields): # missing field validation same as above
+        return jsonify({"error": "Missing Registration"}), 400
+    conn = getdbconnection()
+    cursor = conn.cursor()
+    cursor.execute('''DELETE FROM vehicles WHERE registration = ?''', (data['registration'],))      # deleting vehicle data based on registration number
+    conn.commit()
+    conn.close() # Closing connection after deletion, as below we will create a new connection for the VACUUM command.
+    vacuum_conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), '..', 'vehicles.db')) #new connection for VACUUM command due to no transaction being active.
+    vacuum_conn.execute('VACUUM')#optimizing db after deletion
+    vacuum_conn.close() # closing the vacuum connection
+    
+    return jsonify({"message": "Vehicle deleted!"}), 200 # success message
