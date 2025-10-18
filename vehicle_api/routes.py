@@ -5,7 +5,7 @@ from . import vehicle_api # importing blueprint instance
 
 
 def getdbconnection():   # function to get a connection to the database
-    db_path = os.path.join #ensuring the database is created in the same directory as init.db.py
+    db_path = os.path.join(os.path.dirname(__file__), '..', 'vehicles.db') #ensuring the database is created in the same directory as init.db.py
     conectn = sqlite3.connect(db_path) #creating a connection to the database with the path
     conectn.row_factory = sqlite3.Row # allows dictionary-like access to rows (key-value pairs) making it easier to sort and filter data.
     return conectn # returning the connection object
@@ -26,7 +26,7 @@ def get_vehicles():
 def add_vehicle():
     data = request.get_json() # getting the json data from the request body (in dictionary format)
     required_fields = ['registration', 'make', 'model', 'year']
-    if not all (data in field for field in ('registration', 'make', 'model', 'year')): # missing field validation
+    if not all (data in field for field in required_fields): # missing field validation
         return jsonify({"error": "1 or more fields are missing"}), 400
     
     try: 

@@ -1,5 +1,5 @@
 from flask import Flask
-from vehicle_api.routes import vehicle_api #importing the blueprint from the routes file
+from vehicle_api import vehicle_api #importing the blueprint from the routes file
 
 app = Flask(__name__) # initialisation of the flask app
 
