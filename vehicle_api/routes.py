@@ -74,8 +74,8 @@ def update_vehicle():
         return jsonify({"error": "Registration is incorrect or missing"}), 400
     conn = getdbconnection()
     cursor = conn.cursor()
-    cursor.execute('UPDATE vehicles SET make = ?, model = ?, year = ? WHERE registration = ?', 
-                   (data['make'], data['model'], data['year'], data['registration']))
+    cursor.execute('UPDATE vehicles SET (registration, make, model, year) = (?, ?, ?, ?) WHERE registration = ?',
+                   (data['registration'], data['make'], data['model'], data['year'], data['registration']))
     conn.commit()
     conn.close()
     return jsonify({"message": "Vehicle updated!"}), 200 # success message
