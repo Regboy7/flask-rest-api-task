@@ -49,6 +49,17 @@
         </table>
     </section>
 
+    <section id="update-section">
+        <h2>update vehicle</h2>
+        <form id="updateForm">
+            <input type="text" id="updRegistration" placeholder="registration" required>
+            <input type="text" id="updMake" placeholder="make" required>
+            <input type="text" id="updModel" placeholder="model" required>
+            <input type="number" id="updYear" placeholder="year" required>
+            <button type="submit">update vehicle</button>
+        </form>
+    </section>
+    
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

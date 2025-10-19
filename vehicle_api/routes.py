@@ -70,7 +70,7 @@ def delete_vehicle():
 def update_vehicle():
     data = request.get_json() # getting if  from request body
     data_update_fields = ['registration'] # fields required to identify the vehicle to update
-    if data_update_fields[0] not in data:
+    if data_update_fields[0] not in data: # validation for registration field
         return jsonify({"error": "Registration is incorrect or missing"}), 400
     conn = getdbconnection()
     cursor = conn.cursor()
@@ -78,3 +78,4 @@ def update_vehicle():
                    (data['make'], data['model'], data['year'], data['registration']))
     conn.commit()
     conn.close()
+    return jsonify({"message": "Vehicle updated!"}), 200 # success message

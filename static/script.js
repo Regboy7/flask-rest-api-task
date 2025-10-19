@@ -84,5 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
         loadVehicles();
     });
 
+    // update vehicle.
+    updateform.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const updVehicle = {
+            Registration: document.getElementById('updRegistration').value,
+            make: document.getElementById('updMake').value,
+            model: document.getElementById('updModel').value,
+            year: document.getElementById('updYear').value
+        };
+        await fetch('/api vehicles', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ updVehicle })
+        })
+        updateform.reset();
+        loadVehicles();
+    });
+
     loadVehicles();
 });
