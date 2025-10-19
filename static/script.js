@@ -42,14 +42,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // sorting when clicking table headers.
     headers.forEach(header => {
-        header.addEventListener('click', () => {
-            const key = header.dataset.sort;
-            vehiclesData.sort((a, b) => {
-                if (a[key] < b[key]) return -1;
-                if (a[key] > b[key]) return 1;
-                return 0;
-            });
-            displayVehicles(vehiclesData);
+        let sortState = 0; // 0 = normal, 1 = ascending, 2 = descending
+
+    header.addEventListener('click', () => {
+        const key = header.dataset.sort;
+        sortState = (sortState + 1) % 3; // cycle between 
+
+        let sortedData = [...vehiclesData]; // make a copy to avoid mutating original
+
+        if (sortState === 1) {
+            // ascending
+            sortedData.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
+        } else if (sortState === 2) {
+            // descending
+            sortedData.sort((a, b) => (a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0));
+        } else {
+            // normal (original order)
+            sortedData = [...vehiclesData];
+        }
+        
+        displayVehicles(sortedData);
         });
     });
 
