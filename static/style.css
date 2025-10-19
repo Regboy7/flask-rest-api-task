@@ -1,10 +1,11 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: arial, sans-serif;
     background-color: #f9fafc;
     color: #333;
     margin: 2rem;
 }
 
+/* keep consistent heading style */
 h1, h2 {
     color: #222;
 }
@@ -17,13 +18,15 @@ section {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* input and button spacing kept simple */
 input, button {
     padding: 0.5rem;
     margin: 0.3rem;
 }
 
+/* basic green button styling */
 button {
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;
@@ -33,6 +36,7 @@ button:hover {
     background-color: #45a049;
 }
 
+/* table style for clean borders */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -41,4 +45,38 @@ table {
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
+    text-align: center; /* center text inside table cells */
+}
+
+/* slight grey hover effect for readability */
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* header styling to make sortable columns stand out */
+th {
+    cursor: pointer;
+    background-color: #eaeaea;
+    text-transform: lowercase;
+}
+
+th:hover {
+    background-color: #dcdcdc;
+}
+
+/* style for search input bar */
+#searchInput {
+    width: 60%;
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* center search section and its content */
+#search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
