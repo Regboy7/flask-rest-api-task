@@ -65,3 +65,16 @@ def delete_vehicle():
     vacuum_conn.close() # closing the vacuum connection
     
     return jsonify({"message": "Vehicle deleted!"}), 200 # success message
+
+@vehicle_api.route('/vehicles', methods=['PUT']) # endpoint to update existing vehicle data
+def update_vehicle():
+    data = request.get_json() # getting if  from request body
+    data_update_fields = ['registration'] # fields required to identify the vehicle to update
+    if data_update_fields[0] not in data:
+        return jsonify({"error": "Registration is incorrect or missing"}), 400
+    conn = getdbconnection()
+    cursor = conn.cursor()
+    cursor.execute('UPDATE vehicles SET make = ?, model = ?, year = ? WHERE registration = ?', 
+                   (data['make'], data['model'], data['year'], data['registration']))
+    conn.commit()
+    conn.close()
