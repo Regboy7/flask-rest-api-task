@@ -49,7 +49,6 @@ def add_vehicle():
 
     return jsonify({"message": "Vehicle added!"}), 201 #final success message
 
-
 @vehicle_api.route('/vehicles', methods=['DELETE']) # an endpoint to delete existing data
 def delete_vehicle():
     data = request.get_json() # getting data from request body

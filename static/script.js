@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addForm = document.getElementById('addForm');
     const deleteForm = document.getElementById('deleteForm');
 
-    // Fetch vehicles and populate the table
+    // fetch vehicles and display.
     async function loadVehicles() {
         const res = await fetch('/api/vehicles');
         const data = await res.json();
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Add vehicle
+    // add vehicle.
     addForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const newVehicle = {
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadVehicles();
     });
 
-    // Delete vehicle
+    // delete vehicle.
     deleteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const reg = document.getElementById('deleteRegistration').value;
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteForm.reset();
         loadVehicles();
     });
+    
 
     loadVehicles();
 });
