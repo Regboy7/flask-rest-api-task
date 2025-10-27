@@ -5,7 +5,7 @@ body {
     margin: 2rem;
 }
 
-/* keep consistent heading style */
+/* heading style */
 h1, h2 {
     color: #222;
 }
@@ -18,7 +18,7 @@ section {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-/* input and button spacing kept simple */
+/* input and button spacing */
 input, button {
     padding: 0.5rem;
     margin: 0.3rem;
@@ -32,11 +32,14 @@ button {
     cursor: pointer;
 }
 
+/* button hover effect */
+
 button:hover {
     background-color: #45a049;
 }
 
-/* table style for clean borders */
+/* table style */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -48,7 +51,7 @@ th, td {
     text-align: center; /* center text inside table cells */
 }
 
-/* slight grey effect for readability */
+/* slight grey effect */
 tr:hover {
     background-color: #f1f1f1;
 }

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteForm = document.getElementById('deleteForm');
     const searchInput = document.getElementById('searchInput');
     const headers = document.querySelectorAll('#vehicleTable th');
+    const originaldata = []; // store original data for filtering ect.
 
     let vehiclesData = []; // store full dataset for search and sort use
 
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = header.dataset.sort;
         sortState = (sortState + 1) % 3; // cycle between 
 
-        let sortedData = [...vehiclesData]; // make a copy to avoid mutating original
+        let sortedData = [...vehiclesData]; // make a copy to avoid changing original
 
         if (sortState === 1) {
             // ascending
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // descending
             sortedData.sort((a, b) => (a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0));
         } else {
-            // normal (original order)
+            // normal 
             sortedData = [...vehiclesData];
         }
         
