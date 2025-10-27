@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>🚗 vehicle dashboard</h1>
+    <h1>Petrol Drive Off manager</h1>
 
     <section id="search-section">
         <h2>search vehicles</h2>
@@ -48,9 +48,8 @@
 
     <section id="list-section">
         <h2>current vehicles</h2>
-        <table id="vehicleTable">
+        <table id="vehicleTable">   <!-- added data-sort attributes for sorting -->
             <thead>
-                <!-- added data-sort attributes for sorting -->
                 <tr>
                     <th data-sort="registration">registration</th>
                     <th data-sort="make">make</th>
